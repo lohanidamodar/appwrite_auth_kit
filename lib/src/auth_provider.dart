@@ -1,4 +1,4 @@
-import 'package:appwrite_flutter_auth/src/user.dart';
+import 'package:appwrite_flutter_accounts/src/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:appwrite/appwrite.dart';
