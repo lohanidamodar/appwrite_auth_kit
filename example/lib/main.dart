@@ -102,7 +102,7 @@ class AdminPage extends StatelessWidget {
             const SizedBox(height: 20.0),
             ElevatedButton(
                 onPressed: () {
-                  context.authNotifier?.logOut();
+                  context.authNotifier?.deleteSession();
                 },
                 child: Text("Logout"))
           ]
@@ -186,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       //do client side validation
                       if (!(await context.authNotifier
-                              ?.signIn(email, password) ??
+                              ?.createSession(email: email, password: password) ??
                           false)) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(context.authNotifier?.error ??

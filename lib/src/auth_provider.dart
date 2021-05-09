@@ -71,7 +71,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future logOut() async {
+  Future deleteSession() async {
     try {
       await _account.deleteSession(sessionId: 'current');
       _user = null;
@@ -84,7 +84,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future signIn(String email, String password) async {
+  Future createSession({required String email, required String password}) async {
     _status = AuthStatus.authenticating;
     notifyListeners();
     try {
@@ -99,13 +99,15 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> signup(String name, String email, String password) async {
+  /// Create account
+  /// 
+  Future<bool> create({required String name, required String email, required String password}) async {
     _status = AuthStatus.authenticating;
     notifyListeners();
     try {
       await _account.create(name: name, email: email, password: password);
       _error = '';
-      await signIn(email, password);
+      await createSession(email: email, password: password);
       return true;
     } on AppwriteException catch (e) {
       _error = e.message;
