@@ -1,4 +1,4 @@
-import 'package:appwrite_flutter_auth/appwrite_flutter_auth.dart';
+import 'package:appwrite_flutter_accounts/appwrite_flutter_accounts.dart';
 import 'package:flutter/material.dart';
 
 void main() {

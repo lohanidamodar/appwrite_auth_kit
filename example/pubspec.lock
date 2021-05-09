@@ -8,7 +8,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.0-dev.1"
-  appwrite_flutter_auth:
+  appwrite_flutter_accounts:
     dependency: "direct main"
     description:
       path: ".."
