@@ -1,6 +1,6 @@
-# appwrite_flutter_auth
+# Flutter Appwrite Accounts
 
-A new Flutter package project.
+A wrapper for Appwrite's Accounts service, makes it easy to use Accounts service, manage authentication and account features.
 
 ## Getting Started
 
