@@ -1,5 +1,6 @@
 name: appwrite_flutter_accounts
-description: A wrapper for Appwrite's Accounts service, makes it easy to use Accounts service, manage authentication and account features.
+description: A wrapper for Appwrite's Accounts service, makes it easy to use
+  Accounts service, manage authentication and account features.
 version: 0.0.1
 author: Damodar Lohani
 homepage: https://github.com/lohanidamodar/appwrite_flutter_accounts
@@ -11,40 +12,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  appwrite: ^0.5.0-dev.1
+  appwrite: ^0.6.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 flutter: null
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -21,16 +21,13 @@ class _MyAppState extends State<MyApp> {
     client
         .setEndpoint('https://localhost/v1')
         .setProject('60793ca4ce59e')
-        .setSelfSigned()
-        .addHeader('Origin', 'http://localhost');
-
-    account = Account(client);
+        .setSelfSigned();
   }
 
   @override
   Widget build(BuildContext context) {
     return AppwriteAccountProvider(
-      client: account,
+      client: client,
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -185,8 +182,8 @@ class _LoginPageState extends State<LoginPage> {
                       final password = _password.text;
 
                       //do client side validation
-                      if (!(await context.authNotifier
-                              ?.createSession(email: email, password: password) ??
+                      if (!(await context.authNotifier?.createSession(
+                              email: email, password: password) ??
                           false)) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(context.authNotifier?.error ??

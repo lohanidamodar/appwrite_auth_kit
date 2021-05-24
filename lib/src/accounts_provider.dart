@@ -77,12 +77,13 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future deleteSession() async {
+  Future<bool> deleteSession({String sessionId = 'current'}) async {
     try {
-      await _account.deleteSession(sessionId: 'current');
+      await _account.deleteSession(sessionId: sessionId);
       _user = null;
       _status = AuthStatus.unauthenticated;
       notifyListeners();
+      return true;
     } on AppwriteException catch (e) {
       _error = e.message;
       return false;
@@ -102,7 +103,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future createSession(
+  Future<bool> createSession(
       {required String email, required String password}) async {
     _status = AuthStatus.authenticating;
     notifyListeners();
@@ -115,6 +116,32 @@ class AuthNotifier extends ChangeNotifier {
       _status = AuthStatus.unauthenticated;
       notifyListeners();
       return false;
+    }
+  }
+
+  Future<bool> createAnonymousSession() async {
+    _status = AuthStatus.authenticating;
+    notifyListeners();
+    try {
+      await _account.createAnonymousSession();
+      _getUser();
+      return true;
+    } on AppwriteException catch (e) {
+      _error = e.message;
+      _status = AuthStatus.unauthenticated;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<String?> createJWT() async {
+    try {
+      final res = await _account.createJWT();
+      return res.data['jwt'];
+    } on AppwriteException catch (e) {
+      _error = e.message;
+      notifyListeners();
+      return null;
     }
   }
 
@@ -179,6 +206,7 @@ class AuthNotifier extends ChangeNotifier {
   Future<bool> createOAuth2Session(String provider) async {
     try {
       await _account.createOAuth2Session(provider: provider);
+      _getUser();
       return true;
     } on AppwriteException catch (e) {
       _error = e.message;
@@ -241,8 +269,63 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   //createRecovery
+  Future<bool> createRecovery(
+      {required String email, required String url}) async {
+    try {
+      await _account.createRecovery(email: email, url: url);
+      return true;
+    } on AppwriteException catch (e) {
+      _error = e.message;
+      notifyListeners();
+      return false;
+    }
+  }
+
   //updateRecovery
-  //deleteSessions()
+  Future<bool> updateRecovery(
+      {required String userId,
+      required String password,
+      required String confirmPassword,
+      required String secret}) async {
+    try {
+      await _account.updateRecovery(
+          userId: userId,
+          password: password,
+          passwordAgain: confirmPassword,
+          secret: secret);
+      return true;
+    } on AppwriteException catch (e) {
+      _error = e.message;
+      notifyListeners();
+      return false;
+    }
+  }
+
   //createVerification
+  Future<bool> createVerification({required String url}) async {
+    try {
+      await _account.createVerification(url: url);
+      return true;
+    } on AppwriteException catch (e) {
+      _error = e.message;
+      notifyListeners();
+      return false;
+    }
+  }
+
   //updateVerification
+  Future<bool> updateVerification(
+      {required String userId,
+      required String password,
+      required String confirmPassword,
+      required String secret}) async {
+    try {
+      await _account.updateVerification(userId: userId, secret: secret);
+      return true;
+    } on AppwriteException catch (e) {
+      _error = e.message;
+      notifyListeners();
+      return false;
+    }
+  }
 }
