@@ -1,17 +1,17 @@
-import 'package:appwrite_flutter_accounts/src/models/logs.dart';
-import 'package:appwrite_flutter_accounts/src/models/session.dart';
-import 'package:appwrite_flutter_accounts/src/models/user.dart';
+import 'package:flappwrite_account_kit/src/models/logs.dart';
+import 'package:flappwrite_account_kit/src/models/session.dart';
+import 'package:flappwrite_account_kit/src/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:appwrite/appwrite.dart';
 
-extension AppwriteAccountProviderExt on BuildContext {
-  AuthNotifier? get authNotifier => AppwriteAccountProvider.of(this);
+extension FlAppwriteAccountKitExt on BuildContext {
+  AuthNotifier? get authNotifier => FlAppwriteAccountKit.of(this);
 }
 
 /// Exposes Nhost authentication information to its subtree.
-class AppwriteAccountProvider extends InheritedNotifier<AuthNotifier> {
-  AppwriteAccountProvider({
+class FlAppwriteAccountKit extends InheritedNotifier<AuthNotifier> {
+  FlAppwriteAccountKit({
     Key? key,
     required Client client,
     required Widget child,
@@ -28,7 +28,7 @@ class AppwriteAccountProvider extends InheritedNotifier<AuthNotifier> {
 
   static AuthNotifier? of(BuildContext context) {
     return context
-        .dependOnInheritedWidgetOfExactType<AppwriteAccountProvider>()
+        .dependOnInheritedWidgetOfExactType<FlAppwriteAccountKit>()
         ?.notifier;
   }
 }

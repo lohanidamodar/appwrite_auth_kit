@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:appwrite_flutter_accounts/appwrite_flutter_accounts.dart';
+import 'package:flappwrite_account_kit/flappwrite_account_kit.dart';
 
 void main() {
   test('adds one to input values', () {

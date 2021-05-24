@@ -1,4 +1,4 @@
-import 'package:appwrite_flutter_accounts/appwrite_flutter_accounts.dart';
+import 'package:flappwrite_account_kit/flappwrite_account_kit.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return AppwriteAccountProvider(
+    return FlAppwriteAccountKit(
       client: client,
       child: MaterialApp(
         title: 'Flutter Demo',
