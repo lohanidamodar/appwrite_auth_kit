@@ -316,9 +316,7 @@ class AuthNotifier extends ChangeNotifier {
   //updateVerification
   Future<bool> updateVerification(
       {required String userId,
-      required String password,
-      required String confirmPassword,
-      required String secret}) async {
+       required String secret}) async {
     try {
       await _account.updateVerification(userId: userId, secret: secret);
       return true;
