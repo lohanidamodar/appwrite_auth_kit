@@ -203,9 +203,9 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> createOAuth2Session(String provider) async {
+  Future<bool> createOAuth2Session(String provider, String success, String failure) async {
     try {
-      await _account.createOAuth2Session(provider: provider);
+      await _account.createOAuth2Session(provider: provider, success: success, failure: failure);
       _getUser();
       return true;
     } on AppwriteException catch (e) {
