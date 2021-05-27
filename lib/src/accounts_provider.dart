@@ -203,7 +203,10 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> createOAuth2Session(String provider, String success, String failure) async {
+  Future<bool> createOAuth2Session(required String provider,
+      String success = 'https://appwrite.io/auth/oauth2/success',
+      String failure = 'https://appwrite.io/auth/oauth2/failure',
+      List scopes = const []) async {
     try {
       await _account.createOAuth2Session(provider: provider, success: success, failure: failure);
       _getUser();
