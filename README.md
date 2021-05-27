@@ -13,7 +13,7 @@ dependencies:
     flappwrite_account_kit:
         git: https://github.com/lohanidamodar/flappwrite_account_kit
 ```
-1. Wrap your Material App `FlAppwriteAccountKit` passing a properly initialized Appwrite Client. Example below:
+1. Wrap your MaterialApp `FlAppwriteAccountKit` passing a properly initialized Appwrite Client. Example below:
 
 ```dart
 class MyApp extends StatefulWidget {

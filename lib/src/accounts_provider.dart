@@ -103,8 +103,10 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> createSession(
-      {required String email, required String password}) async {
+  Future<bool> createSession({
+    required String email,
+    required String password,
+  }) async {
     _status = AuthStatus.authenticating;
     notifyListeners();
     try {
@@ -147,10 +149,11 @@ class AuthNotifier extends ChangeNotifier {
 
   /// Create account
   ///
-  Future<bool> create(
-      {required String name,
-      required String email,
-      required String password}) async {
+  Future<bool> create({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
     _status = AuthStatus.authenticating;
     notifyListeners();
     try {
@@ -179,7 +182,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> updatePrefs(Map<String, dynamic> prefs) async {
+  Future<bool> updatePrefs({required Map<String, dynamic> prefs}) async {
     try {
       final res = await _account.updatePrefs(prefs: prefs);
       _user = _user?.copyWith(prefs: res.data);
@@ -226,7 +229,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> updateName(String name) async {
+  Future<bool> updateName({required String name}) async {
     try {
       final res = await _account.updateName(name: name);
       _user = User.fromMap(res.data);
@@ -239,8 +242,10 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> updateEmail(
-      {required String email, required String password}) async {
+  Future<bool> updateEmail({
+    required String email,
+    required String password,
+  }) async {
     try {
       final res = await _account.updateEmail(email: email, password: password);
       _user = User.fromMap(res.data);
@@ -253,8 +258,10 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> updatePassword(
-      {required String oldPassword, required String password}) async {
+  Future<bool> updatePassword({
+    required String oldPassword,
+    required String password,
+  }) async {
     try {
       final res = await _account.updatePassword(
           password: password, oldPassword: oldPassword);
@@ -269,8 +276,10 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   //createRecovery
-  Future<bool> createRecovery(
-      {required String email, required String url}) async {
+  Future<bool> createRecovery({
+    required String email,
+    required String url,
+  }) async {
     try {
       await _account.createRecovery(email: email, url: url);
       return true;
@@ -282,11 +291,12 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   //updateRecovery
-  Future<bool> updateRecovery(
-      {required String userId,
-      required String password,
-      required String confirmPassword,
-      required String secret}) async {
+  Future<bool> updateRecovery({
+    required String userId,
+    required String password,
+    required String confirmPassword,
+    required String secret,
+  }) async {
     try {
       await _account.updateRecovery(
           userId: userId,
@@ -314,9 +324,10 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   //updateVerification
-  Future<bool> updateVerification(
-      {required String userId,
-       required String secret}) async {
+  Future<bool> updateVerification({
+    required String userId,
+    required String secret,
+  }) async {
     try {
       await _account.updateVerification(userId: userId, secret: secret);
       return true;
