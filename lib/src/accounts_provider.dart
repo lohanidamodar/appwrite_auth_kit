@@ -213,7 +213,11 @@ class AuthNotifier extends ChangeNotifier {
     List scopes = const [],
   }) async {
     try {
-      await _account.createOAuth2Session(provider: provider, success: success, failure: failure);
+      await _account.createOAuth2Session(
+        provider: provider,
+        success: success,
+        failure: failure,
+      );
       _getUser();
       return true;
     } on AppwriteException catch (e) {
