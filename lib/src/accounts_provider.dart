@@ -150,9 +150,9 @@ class AuthNotifier extends ChangeNotifier {
   /// Create account
   ///
   Future<bool> create({
-    required String name,
     required String email,
     required String password,
+    String? name,
   }) async {
     _status = AuthStatus.authenticating;
     notifyListeners();
@@ -208,15 +208,16 @@ class AuthNotifier extends ChangeNotifier {
 
   Future<bool> createOAuth2Session({
     required String provider,
-    String success = 'https://appwrite.io/auth/oauth2/success',
-    String failure = 'https://appwrite.io/auth/oauth2/failure',
-    List scopes = const [],
+    String? success,
+    String? failure,
+    List? scopes,
   }) async {
     try {
       await _account.createOAuth2Session(
         provider: provider,
         success: success,
         failure: failure,
+        scopes: scopes,
       );
       _getUser();
       return true;
@@ -268,8 +269,8 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   Future<bool> updatePassword({
-    required String oldPassword,
     required String password,
+    String? oldPassword,
   }) async {
     try {
       final res = await _account.updatePassword(
@@ -303,14 +304,14 @@ class AuthNotifier extends ChangeNotifier {
   Future<bool> updateRecovery({
     required String userId,
     required String password,
-    required String confirmPassword,
+    required String passwordAgain,
     required String secret,
   }) async {
     try {
       await _account.updateRecovery(
           userId: userId,
           password: password,
-          passwordAgain: confirmPassword,
+          passwordAgain: passwordAgain,
           secret: secret);
       return true;
     } on AppwriteException catch (e) {

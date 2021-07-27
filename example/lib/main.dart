@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             const SizedBox(height: 30.0),
             Text(
-              "Appwrite Auth Provider Example",
+              "FlAppwrite Account Kit Example",
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline3?.copyWith(
                     color: Theme.of(context).primaryColor,
