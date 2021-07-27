@@ -228,6 +228,17 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
+  Future<Session?> getSession({required String sessionId}) async {
+    try {
+      final res = await _account.getSession(sessionId: sessionId);
+      return Session.fromMap(res.data);
+    } on AppwriteException catch (e) {
+      _error = e.message;
+      notifyListeners();
+      return null;
+    }
+  }
+
   Future<SessionList?> getSessions() async {
     try {
       final res = await _account.getSessions();
