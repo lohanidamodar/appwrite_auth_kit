@@ -18,6 +18,9 @@ class User {
     required this.prefs,
   });
 
+  T prefsConverted<T>(T Function(Map<String, dynamic>) fromJson) =>
+      fromJson(prefs);
+
   User copyWith({
     String? id,
     String? name,
@@ -54,12 +57,11 @@ class User {
     return User(
       id: map['\$id'],
       name: map['name'],
-      registration:
-          DateTime.fromMillisecondsSinceEpoch(map['registration']),
+      registration: DateTime.fromMillisecondsSinceEpoch(map['registration']),
       status: map['status'],
       email: map['email'],
       emailVerification: map['emailVerification'],
-      prefs: Map<String, dynamic> .from(map['prefs']),
+      prefs: Map<String, dynamic>.from(map['prefs']),
     );
   }
 
