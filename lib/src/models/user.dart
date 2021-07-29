@@ -18,7 +18,7 @@ class User {
     required this.prefs,
   });
 
-  T prefsConverted<T>(T Function(Map<String, dynamic>) fromJson) =>
+  T prefsConverted<T>(T Function(Map<String, dynamic> data) fromJson) =>
       fromJson(prefs);
 
   User copyWith({
