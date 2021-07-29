@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:appwrite/appwrite.dart';
 
 extension FlAppwriteAccountKitExt on BuildContext {
-  AuthNotifier? get authNotifier => FlAppwriteAccountKit.of(this);
+  AuthNotifier get authNotifier => FlAppwriteAccountKit.of(this);
 }
 
 /// Exposes Nhost authentication information to its subtree.
@@ -26,10 +26,12 @@ class FlAppwriteAccountKit extends InheritedNotifier<AuthNotifier> {
     return oldWidget.notifier != notifier;
   }
 
-  static AuthNotifier? of(BuildContext context) {
-    return context
+  static AuthNotifier of(BuildContext context) {
+    final AuthNotifier? result = context
         .dependOnInheritedWidgetOfExactType<FlAppwriteAccountKit>()
         ?.notifier;
+    assert(result != null, 'No AuthNotifier found in context');
+    return result!;
   }
 }
 

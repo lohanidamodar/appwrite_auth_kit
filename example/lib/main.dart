@@ -43,7 +43,7 @@ class MainScreen extends StatelessWidget {
     final authNotifier = context.authNotifier;
 
     Widget widget;
-    switch (authNotifier?.status ?? AuthStatus.uninitialized) {
+    switch (authNotifier.status) {
       case AuthStatus.authenticated:
         widget = AdminPage();
         break;
@@ -74,7 +74,7 @@ class LoadingPage extends StatelessWidget {
 class AdminPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = context.authNotifier?.user;
+    final user = context.authNotifier.user;
     return Scaffold(
       appBar: AppBar(
         title: Text('Admin page'),
@@ -88,7 +88,7 @@ class AdminPage extends StatelessWidget {
             const SizedBox(height: 20.0),
             ElevatedButton(
                 onPressed: () {
-                  context.authNotifier?.deleteSession();
+                  context.authNotifier.deleteSession();
                 },
                 child: Text("Logout"))
           ]
@@ -169,11 +169,10 @@ class _LoginPageState extends State<LoginPage> {
                       final email = _email.text;
                       final password = _password.text;
 
-                      if (!(await context.authNotifier?.createSession(
-                              email: email, password: password) ??
-                          false)) {
+                      if (!await context.authNotifier
+                          .createSession(email: email, password: password)) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(context.authNotifier?.error ??
+                            content: Text(context.authNotifier.error ??
                                 "Unknown error")));
                       }
                     },

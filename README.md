@@ -60,7 +60,7 @@ class MainScreen extends StatelessWidget {
     final authNotifier = context.authNotifier;
 
     Widget widget;
-    switch (authNotifier?.status ?? AuthStatus.uninitialized) {
+    switch (authNotifier.status) {
       case AuthStatus.authenticated:
         widget = AdminPage();
         break;
