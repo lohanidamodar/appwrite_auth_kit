@@ -187,7 +187,7 @@ class AuthNotifier extends ChangeNotifier {
   Future<bool> updatePrefs({required Map<String, dynamic> prefs}) async {
     try {
       final res = await _account.updatePrefs(prefs: prefs);
-      _user = _user?.copyWith(prefs: res.data);
+      _user = User.fromMap(res.data);
       notifyListeners();
       return true;
     } on AppwriteException catch (e) {
