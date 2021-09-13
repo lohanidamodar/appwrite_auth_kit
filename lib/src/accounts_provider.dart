@@ -151,7 +151,7 @@ class AuthNotifier extends ChangeNotifier {
 
   /// Create account
   ///
-  Future<bool> create({
+  Future<User?> create({
     required String email,
     required String password,
     String? name,
@@ -159,15 +159,16 @@ class AuthNotifier extends ChangeNotifier {
     _status = AuthStatus.authenticating;
     notifyListeners();
     try {
-      await _account.create(name: name, email: email, password: password);
+      final res =
+          await _account.create(name: name, email: email, password: password);
       _error = '';
       await createSession(email: email, password: password);
-      return true;
+      return User.fromMap(res.data);
     } on AppwriteException catch (e) {
       _error = e.message;
       _status = AuthStatus.unauthenticated;
       notifyListeners();
-      return false;
+      return null;
     }
   }
 
