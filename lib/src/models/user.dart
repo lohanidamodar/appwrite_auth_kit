@@ -45,7 +45,7 @@ class User {
     return {
       'id': id,
       'name': name,
-      'registration': registration.millisecondsSinceEpoch,
+      'registration': registration.millisecondsSinceEpoch / 1000,
       'status': status,
       'email': email,
       'emailVerification': emailVerification,
@@ -57,7 +57,7 @@ class User {
     return User(
       id: map['\$id'],
       name: map['name'],
-      registration: DateTime.fromMillisecondsSinceEpoch(map['registration']),
+      registration: DateTime.fromMillisecondsSinceEpoch(map['registration'] * 1000),
       status: map['status'],
       email: map['email'],
       emailVerification: map['emailVerification'],
