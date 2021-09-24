@@ -2,7 +2,6 @@ name: flappwrite_account_kit
 description: A wrapper for Appwrite's Accounts service, makes it easy to use
   Accounts service, manage authentication and account features.
 version: 0.0.1
-author: Damodar Lohani
 homepage: https://github.com/lohanidamodar/flappwrite_account_kit
 
 environment:
@@ -12,7 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  appwrite: ^1.0.2
+  appwrite: ^2.0.0
 
 dev_dependencies:
   flutter_test:

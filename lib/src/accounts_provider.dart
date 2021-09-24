@@ -1,9 +1,7 @@
-import 'package:flappwrite_account_kit/src/models/logs.dart';
-import 'package:flappwrite_account_kit/src/models/session.dart';
-import 'package:flappwrite_account_kit/src/models/user.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart';
 
 extension FlAppwriteAccountKitExt on BuildContext {
   AuthNotifier get authNotifier => FlAppwriteAccountKit.of(this);
@@ -67,8 +65,7 @@ class AuthNotifier extends ChangeNotifier {
 
   Future _getUser() async {
     try {
-      final res = await _account.get();
-      _user = User.fromMap(res.data);
+      _user = await _account.get();
       _status = AuthStatus.authenticated;
     } on AppwriteException catch (e) {
       _status = AuthStatus.unauthenticated;
@@ -138,10 +135,9 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<String?> createJWT() async {
+  Future<Jwt?> createJWT() async {
     try {
-      final res = await _account.createJWT();
-      return res.data['jwt'];
+      return await _account.createJWT();
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
@@ -184,23 +180,21 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> updatePrefs({required Map<String, dynamic> prefs}) async {
+  Future<User?> updatePrefs({required Map<String, dynamic> prefs}) async {
     try {
-      final res = await _account.updatePrefs(prefs: prefs);
-      _user = User.fromMap(res.data);
+      _user = await _account.updatePrefs(prefs: prefs);
       notifyListeners();
-      return true;
+      return _user;
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
-      return false;
+      return null;
     }
   }
 
   Future<LogList?> getLogs() async {
     try {
-      final res = await _account.getLogs();
-      return LogList.fromMap(res.data);
+      return await _account.getLogs();
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
@@ -232,8 +226,7 @@ class AuthNotifier extends ChangeNotifier {
 
   Future<Session?> getSession({required String sessionId}) async {
     try {
-      final res = await _account.getSession(sessionId: sessionId);
-      return Session.fromMap(res.data);
+      return await _account.getSession(sessionId: sessionId);
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
@@ -243,8 +236,7 @@ class AuthNotifier extends ChangeNotifier {
 
   Future<SessionList?> getSessions() async {
     try {
-      final res = await _account.getSessions();
-      return SessionList.fromMap(res.data);
+      return await _account.getSessions();
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
@@ -252,112 +244,105 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> updateName({required String name}) async {
+  Future<User?> updateName({required String name}) async {
     try {
-      final res = await _account.updateName(name: name);
-      _user = User.fromMap(res.data);
+      _user = await _account.updateName(name: name);
       notifyListeners();
-      return true;
+      return _user;
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
-      return false;
+      return null;
     }
   }
 
-  Future<bool> updateEmail({
+  Future<User?> updateEmail({
     required String email,
     required String password,
   }) async {
     try {
-      final res = await _account.updateEmail(email: email, password: password);
-      _user = User.fromMap(res.data);
+      _user = await _account.updateEmail(email: email, password: password);
       notifyListeners();
-      return true;
+      return _user;
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
-      return false;
+      return null;
     }
   }
 
-  Future<bool> updatePassword({
+  Future<User?> updatePassword({
     required String password,
     String? oldPassword,
   }) async {
     try {
-      final res = await _account.updatePassword(
+      _user = await _account.updatePassword(
           password: password, oldPassword: oldPassword);
-      _user = User.fromMap(res.data);
       notifyListeners();
-      return true;
+      return _user;
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
-      return false;
+      return null;
     }
   }
 
   //createRecovery
-  Future<bool> createRecovery({
+  Future<Token?> createRecovery({
     required String email,
     required String url,
   }) async {
     try {
-      await _account.createRecovery(email: email, url: url);
-      return true;
+      return await _account.createRecovery(email: email, url: url);
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
-      return false;
+      return null;
     }
   }
 
   //updateRecovery
-  Future<bool> updateRecovery({
+  Future<Token?> updateRecovery({
     required String userId,
     required String password,
     required String passwordAgain,
     required String secret,
   }) async {
     try {
-      await _account.updateRecovery(
+      return await _account.updateRecovery(
           userId: userId,
           password: password,
           passwordAgain: passwordAgain,
           secret: secret);
-      return true;
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
-      return false;
+      return null;
     }
   }
 
   //createVerification
-  Future<bool> createVerification({required String url}) async {
+  Future<Token?> createVerification({required String url}) async {
     try {
-      await _account.createVerification(url: url);
-      return true;
+      return await _account.createVerification(url: url);
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
-      return false;
+      return null;
     }
   }
 
   //updateVerification
-  Future<bool> updateVerification({
+  Future<Token?> updateVerification({
     required String userId,
     required String secret,
   }) async {
     try {
-      await _account.updateVerification(userId: userId, secret: secret);
-      return true;
+      return await _account.updateVerification(userId: userId, secret: secret);
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
-      return false;
+      return null;
     }
   }
 }
