@@ -155,11 +155,11 @@ class AuthNotifier extends ChangeNotifier {
     _status = AuthStatus.authenticating;
     notifyListeners();
     try {
-      final res =
+      final user =
           await _account.create(name: name, email: email, password: password);
       _error = '';
       await createSession(email: email, password: password);
-      return User.fromMap(res.data);
+      return user;
     } on AppwriteException catch (e) {
       _error = e.message;
       _status = AuthStatus.unauthenticated;
