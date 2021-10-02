@@ -63,7 +63,7 @@ class AuthNotifier extends ChangeNotifier {
   User? get user => _user;
   AuthStatus get status => _status;
 
-  Future _getUser() async {
+  Future _getUser({bool notify = true}) async {
     try {
       _user = await _account.get();
       _status = AuthStatus.authenticated;
@@ -72,7 +72,9 @@ class AuthNotifier extends ChangeNotifier {
       _error = e.message;
     } finally {
       _loading = false;
-      notifyListeners();
+      if (notify) {
+        notifyListeners();
+      }
     }
   }
 
@@ -105,17 +107,22 @@ class AuthNotifier extends ChangeNotifier {
   Future<bool> createSession({
     required String email,
     required String password,
+    bool notify = true,
   }) async {
     _status = AuthStatus.authenticating;
-    notifyListeners();
+    if (notify) {
+      notifyListeners();
+    }
     try {
       await _account.createSession(email: email, password: password);
-      _getUser();
+      _getUser(notify: notify);
       return true;
     } on AppwriteException catch (e) {
       _error = e.message;
       _status = AuthStatus.unauthenticated;
-      notifyListeners();
+      if (notify) {
+        notifyListeners();
+      }
       return false;
     }
   }
@@ -150,20 +157,28 @@ class AuthNotifier extends ChangeNotifier {
   Future<User?> create({
     required String email,
     required String password,
+    bool notify = true,
+    bool newSession = true,
     String? name,
   }) async {
     _status = AuthStatus.authenticating;
-    notifyListeners();
+    if (notify) {
+      notifyListeners();
+    }
     try {
       final user =
           await _account.create(name: name, email: email, password: password);
       _error = '';
-      await createSession(email: email, password: password);
+      if (newSession) {
+        await createSession(email: email, password: password);
+      }
       return user;
     } on AppwriteException catch (e) {
       _error = e.message;
       _status = AuthStatus.unauthenticated;
-      notifyListeners();
+      if (notify) {
+        notifyListeners();
+      }
       return null;
     }
   }
