@@ -7,7 +7,6 @@ extension FlAppwriteAccountKitExt on BuildContext {
   AuthNotifier get authNotifier => FlAppwriteAccountKit.of(this);
 }
 
-/// Exposes Nhost authentication information to its subtree.
 class FlAppwriteAccountKit extends InheritedNotifier<AuthNotifier> {
   FlAppwriteAccountKit({
     Key? key,
@@ -40,7 +39,6 @@ enum AuthStatus {
   unauthenticated,
 }
 
-/// A [Listenable] that notifies when Nhost authentication states changes
 class AuthNotifier extends ChangeNotifier {
   late final Account _account;
   final Client _client;
