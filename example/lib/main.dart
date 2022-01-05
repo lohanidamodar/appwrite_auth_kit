@@ -17,8 +17,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     client = Client();
     client
-        .setEndpoint('https://localhost/v1')
-        .setProject('60793ca4ce59e')
+        .setEndpoint('https://demo.appwrite.io/v1')
+        .setProject('606e4205b3b5c')
         .setSelfSigned();
   }
 

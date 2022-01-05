@@ -1,7 +1,6 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
+import 'package:flutter/widgets.dart';
 
 extension FlAppwriteAccountKitExt on BuildContext {
   AuthNotifier get authNotifier => FlAppwriteAccountKit.of(this);
@@ -47,7 +46,7 @@ class AuthNotifier extends ChangeNotifier {
   String? _error;
   late bool _loading;
 
-  AuthNotifier(Client client) : this._client = client {
+  AuthNotifier(Client client) : _client = client {
     _error = '';
     _loading = true;
     _account = Account(client);
@@ -140,6 +139,43 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
+  Future<bool> createMagicURLSession({
+    required String email,
+    String userId = 'unique()',
+    String? url,
+  }) async {
+    _status = AuthStatus.authenticating;
+    notifyListeners();
+    try {
+      await _account.createMagicURLSession(
+          userId: userId, email: email, url: url);
+      return true;
+    } on AppwriteException catch (e) {
+      _error = e.message;
+      _status = AuthStatus.unauthenticated;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> updateMagicURLSession({
+    required String userId,
+    required String secret,
+  }) async {
+    _status = AuthStatus.authenticating;
+    notifyListeners();
+    try {
+      await _account.updateMagicURLSession(userId: userId, secret: secret);
+      _getUser();
+      return true;
+    } on AppwriteException catch (e) {
+      _error = e.message;
+      _status = AuthStatus.unauthenticated;
+      notifyListeners();
+      return false;
+    }
+  }
+
   Future<Jwt?> createJWT() async {
     try {
       return await _account.createJWT();
@@ -155,6 +191,7 @@ class AuthNotifier extends ChangeNotifier {
   Future<User?> create({
     required String email,
     required String password,
+    String userId = 'unique()',
     bool notify = true,
     bool newSession = true,
     String? name,
@@ -164,8 +201,8 @@ class AuthNotifier extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      final user =
-          await _account.create(name: name, email: email, password: password);
+      final user = await _account.create(
+          userId: userId, name: name, email: email, password: password);
       _error = '';
       if (newSession) {
         await createSession(email: email, password: password);
@@ -206,9 +243,9 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<LogList?> getLogs() async {
+  Future<LogList?> getLogs({int? limit, int? offset}) async {
     try {
-      return await _account.getLogs();
+      return await _account.getLogs(limit: limit, offset: offset);
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
