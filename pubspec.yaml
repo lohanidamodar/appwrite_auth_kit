@@ -1,8 +1,8 @@
-name: flappwrite_account_kit
+name: appwrite_auth_kit
 description: A wrapper for Appwrite's Accounts service, makes it easy to use
   Accounts service, manage authentication and account features.
 version: 0.0.1
-homepage: https://github.com/lohanidamodar/flappwrite_account_kit
+homepage: https://github.com/lohanidamodar/appwrite_auth_kit
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

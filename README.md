@@ -10,8 +10,8 @@ This is really very easy to use
 
 ```yaml
 dependencies:
-    flappwrite_account_kit:
-        git: https://github.com/lohanidamodar/flappwrite_account_kit
+    appwrite_auth_kit:
+        git: https://github.com/lohanidamodar/appwrite_auth_kit
 ```
 1. Wrap your MaterialApp `FlAppwriteAccountKit` passing a properly initialized Appwrite Client. Example below:
 

@@ -1,4 +1,4 @@
-name: flappwrite_account_kit_example
+name: appwrite_auth_kit_example
 description: A new Flutter project.
 publish_to: 'none' 
 version: 1.0.0+1
@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter 
-  flappwrite_account_kit:
+  appwrite_auth_kit:
     path: ../
 
 dev_dependencies:
