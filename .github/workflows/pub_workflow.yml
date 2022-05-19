@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v1
     - name: Setup credentials
       run: | 
-        mkdir -p ~/.pub-cache 
+        mkdir -p ~/.config/dart 
         cat <<EOF > ~/.config/dart/pub-credentials.json
         {
           "accessToken":"${{ secrets.OAUTH_ACCESS_TOKEN }}",
