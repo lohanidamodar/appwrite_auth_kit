@@ -2,16 +2,13 @@
 
 A Flutter wrapper for Appwrite's Accounts service, makes it easy to use manage authentication and account features.
 
-**Under development. Not ready for production. Help get ready for production.**
-
 ## Getting Started
 This is really very easy to use
-1. Add dependency from git (Will only publish to pub if enough people are interested to use and help make it better.)
+1. Add dependency
 
 ```yaml
 dependencies:
-    appwrite_auth_kit:
-        git: https://github.com/lohanidamodar/appwrite_auth_kit
+    appwrite_auth_kit: <version>
 ```
 1. Wrap your MaterialApp `FlAppwriteAccountKit` passing a properly initialized Appwrite Client. Example below:
 
@@ -51,7 +48,7 @@ class _MyAppState extends State<MyApp> {
 ```
 
 2. Access `authNotifier` from `context`. `authNotifier` is an instance of `AuthNotifier` that provides all the functions of Appwrite's Account service and some easy way to handle authentication.
-3. Get `context.authNotifier?.status` gets the authentication status which can be one of the `AuthStatus.uninitialized`, `AuthStatus.unauthenticated`, `AuthStatus.authenticating` and `AuthStatus.authenticated`. You can check the status and display the appropriate UI, for example
+3. Get `context.authNotifier.status` gets the authentication status which can be one of the `AuthStatus.uninitialized`, `AuthStatus.unauthenticated`, `AuthStatus.authenticating` and `AuthStatus.authenticated`. You can check the status and display the appropriate UI, for example
 
 ```dart
 class MainScreen extends StatelessWidget {
