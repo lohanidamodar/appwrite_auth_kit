@@ -1,7 +1,7 @@
 name: appwrite_auth_kit
 description: A wrapper for Appwrite's Accounts service, makes it easy to use
   Accounts service, manage authentication and account features.
-version: 0.1.0
+version: 0.2.0
 homepage: https://github.com/lohanidamodar/appwrite_auth_kit
 
 environment:
@@ -9,7 +9,7 @@ environment:
   flutter: ">=2.0.0"
 
 dependencies:
-  appwrite: ^4.0.2
+  appwrite: ^5.0.0
   flutter:
     sdk: flutter
     

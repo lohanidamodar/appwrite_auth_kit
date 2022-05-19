@@ -218,9 +218,9 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> delete() async {
+  Future<bool> updateStatus() async {
     try {
-      await _account.delete();
+      await _account.updateStatus();
       _getUser();
       return true;
     } on AppwriteException catch (e) {
