@@ -1,3 +1,6 @@
+## [0.2.1]
+* Fix export issues
+
 ## [0.2.0]
 
 * Upgrade to support Appwrite 0.14
