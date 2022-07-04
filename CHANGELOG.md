@@ -1,3 +1,7 @@
+## [0.3.0]
+* Upgrade to support Appwrite 0.15
+* More on Appwrite's [Flutter SDK Changelog](https://pub.dev/packages/appwrite/changelog#600)
+
 ## [0.2.1]
 * Fix export issues
 
