@@ -101,7 +101,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> createSession({
+  Future<bool> createEmailSession({
     required String email,
     required String password,
     bool notify = true,
@@ -111,7 +111,7 @@ class AuthNotifier extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      await _account.createSession(email: email, password: password);
+      await _account.createEmailSession(email: email, password: password);
       _getUser(notify: notify);
       return true;
     } on AppwriteException catch (e) {
@@ -120,6 +120,41 @@ class AuthNotifier extends ChangeNotifier {
       if (notify) {
         notifyListeners();
       }
+      return false;
+    }
+  }
+
+  Future<bool> createPhoneSession({
+    required String userId,
+    required String number,
+  }) async {
+    _status = AuthStatus.authenticating;
+    notifyListeners();
+    try {
+      await _account.createPhoneSession(userId: userId, number: number);
+      return true;
+    } on AppwriteException catch (e) {
+      _error = e.message;
+      _status = AuthStatus.unauthenticated;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> updatePhoneSession({
+    required String userId,
+    required String secret,
+  }) async {
+    _status = AuthStatus.authenticating;
+    notifyListeners();
+    try {
+      await _account.updatePhoneSession(userId: userId, secret: secret);
+      await _getUser();
+      return true;
+    } on AppwriteException catch (e) {
+      _error = e.message;
+      _status = AuthStatus.unauthenticated;
+      notifyListeners();
       return false;
     }
   }
@@ -205,7 +240,7 @@ class AuthNotifier extends ChangeNotifier {
           userId: userId, name: name, email: email, password: password);
       _error = '';
       if (newSession) {
-        await createSession(email: email, password: password);
+        await createEmailSession(email: email, password: password);
       }
       return user;
     } on AppwriteException catch (e) {
@@ -298,6 +333,21 @@ class AuthNotifier extends ChangeNotifier {
   Future<User?> updateName({required String name}) async {
     try {
       _user = await _account.updateName(name: name);
+      notifyListeners();
+      return _user;
+    } on AppwriteException catch (e) {
+      _error = e.message;
+      notifyListeners();
+      return null;
+    }
+  }
+
+  Future<User?> updatePhone({
+    required String number,
+    required String password,
+  }) async {
+    try {
+      _user = await _account.updatePhone(number: number, password: password);
       notifyListeners();
       return _user;
     } on AppwriteException catch (e) {

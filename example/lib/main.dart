@@ -170,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                       final password = _password.text;
 
                       if (!await context.authNotifier
-                          .createSession(email: email, password: password)) {
+                          .createEmailSession(email: email, password: password)) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(context.authNotifier.error ??
                                 "Unknown error")));
