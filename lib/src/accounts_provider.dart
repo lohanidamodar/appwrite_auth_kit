@@ -2,12 +2,12 @@ import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:flutter/widgets.dart';
 
-extension FlAppwriteAccountKitExt on BuildContext {
-  AuthNotifier get authNotifier => FlAppwriteAccountKit.of(this);
+extension AppwriteAuthKitExt on BuildContext {
+  AuthNotifier get authNotifier => AppwriteAuthKit.of(this);
 }
 
-class FlAppwriteAccountKit extends InheritedNotifier<AuthNotifier> {
-  FlAppwriteAccountKit({
+class AppwriteAuthKit extends InheritedNotifier<AuthNotifier> {
+  AppwriteAuthKit({
     Key? key,
     required Client client,
     required Widget child,
@@ -23,9 +23,8 @@ class FlAppwriteAccountKit extends InheritedNotifier<AuthNotifier> {
   }
 
   static AuthNotifier of(BuildContext context) {
-    final AuthNotifier? result = context
-        .dependOnInheritedWidgetOfExactType<FlAppwriteAccountKit>()
-        ?.notifier;
+    final AuthNotifier? result =
+        context.dependOnInheritedWidgetOfExactType<AppwriteAuthKit>()?.notifier;
     assert(result != null, 'No AuthNotifier found in context');
     return result!;
   }

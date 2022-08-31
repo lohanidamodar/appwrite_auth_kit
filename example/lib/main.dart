@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return FlAppwriteAccountKit(
+    return AppwriteAuthKit(
       client: client,
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -169,8 +169,8 @@ class _LoginPageState extends State<LoginPage> {
                       final email = _email.text;
                       final password = _password.text;
 
-                      if (!await context.authNotifier
-                          .createEmailSession(email: email, password: password)) {
+                      if (!await context.authNotifier.createEmailSession(
+                          email: email, password: password)) {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(context.authNotifier.error ??
                                 "Unknown error")));

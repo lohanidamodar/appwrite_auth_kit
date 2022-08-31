@@ -1,4 +1,4 @@
-# FlAppwrite Account Kit
+# Appwrite Auth Kit
 
 A Flutter wrapper for Appwrite's Accounts service, makes it easy to use manage authentication and account features.
 
@@ -10,7 +10,7 @@ This is really very easy to use
 dependencies:
     appwrite_auth_kit: <version>
 ```
-1. Wrap your MaterialApp `FlAppwriteAccountKit` passing a properly initialized Appwrite Client. Example below:
+1. Wrap your MaterialApp `AppwriteAuthKit` passing a properly initialized Appwrite Client. Example below:
 
 ```dart
 class MyApp extends StatefulWidget {
@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return FlAppwriteAccountKit(
+    return AppwriteAuthKit(
       client: client,
       child: MaterialApp(
         title: 'Flutter Demo',
