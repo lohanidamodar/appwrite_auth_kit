@@ -1,3 +1,6 @@
+## [0.5.0]
+* **BREAKING** Updated naming to be consistent `FlAppwriteAccountKit` is now `AppwriteAccountKit`
+
 ## [0.4.0]
 * **BREAKING** Upgraded to Appwrite Flutter SDK 7.0.0
 * More on Appwrite's [Flutter SDK Changelog](https://pub.dev/packages/appwrite/changelog#700)
