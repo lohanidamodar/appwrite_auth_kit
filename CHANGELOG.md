@@ -1,5 +1,6 @@
 ## [0.5.0]
 * **BREAKING** Updated naming to be consistent `FlAppwriteAccountKit` is now `AppwriteAccountKit`
+* **BREAKING** Minimum Dart SDK required 2.17 to be consistent with [Appwrite](https://pub.dev/packages/appwrite)
 
 ## [0.4.0]
 * **BREAKING** Upgraded to Appwrite Flutter SDK 7.0.0
