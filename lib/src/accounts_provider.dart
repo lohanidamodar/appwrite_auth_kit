@@ -1,5 +1,5 @@
 import 'package:appwrite/appwrite.dart';
-import 'package:appwrite/models.dart';
+import 'package:appwrite/models.dart' as model;
 import 'package:flutter/widgets.dart';
 
 extension AppwriteAuthKitExt on BuildContext {
@@ -41,7 +41,8 @@ class AuthNotifier extends ChangeNotifier {
   late final Account _account;
   final Client _client;
   AuthStatus _status = AuthStatus.uninitialized;
-  User? _user;
+
+  model.Account? _user;
   String? _error;
   late bool _loading;
 
@@ -56,7 +57,7 @@ class AuthNotifier extends ChangeNotifier {
   Client get client => _client;
   String? get error => _error;
   bool get isLoading => _loading;
-  User? get user => _user;
+  model.Account? get user => _user;
   AuthStatus get status => _status;
 
   Future _getUser({bool notify = true}) async {
@@ -130,7 +131,7 @@ class AuthNotifier extends ChangeNotifier {
     _status = AuthStatus.authenticating;
     notifyListeners();
     try {
-      await _account.createPhoneSession(userId: userId, number: number);
+      await _account.createPhoneSession(userId: userId, phone: number);
       return true;
     } on AppwriteException catch (e) {
       _error = e.message;
@@ -210,7 +211,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<Jwt?> createJWT() async {
+  Future<model.Jwt?> createJWT() async {
     try {
       return await _account.createJWT();
     } on AppwriteException catch (e) {
@@ -222,7 +223,7 @@ class AuthNotifier extends ChangeNotifier {
 
   /// Create account
   ///
-  Future<User?> create({
+  Future<model.Account?> create({
     required String email,
     required String password,
     String userId = 'unique()',
@@ -265,7 +266,8 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<User?> updatePrefs({required Map<String, dynamic> prefs}) async {
+  Future<model.Account?> updatePrefs(
+      {required Map<String, dynamic> prefs}) async {
     try {
       _user = await _account.updatePrefs(prefs: prefs);
       notifyListeners();
@@ -277,9 +279,12 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<LogList?> getLogs({int? limit, int? offset}) async {
+  Future<model.LogList?> getLogs({int? limit, int? offset}) async {
     try {
-      return await _account.getLogs(limit: limit, offset: offset);
+      return await _account.listLogs(queries: [
+        if (limit != null) Query.limit(limit),
+        if (offset != null) Query.offset(offset),
+      ]);
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
@@ -291,7 +296,7 @@ class AuthNotifier extends ChangeNotifier {
     required String provider,
     String? success,
     String? failure,
-    List? scopes,
+    List<String>? scopes,
   }) async {
     try {
       await _account.createOAuth2Session(
@@ -309,7 +314,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<Session?> getSession({required String sessionId}) async {
+  Future<model.Session?> getSession({required String sessionId}) async {
     try {
       return await _account.getSession(sessionId: sessionId);
     } on AppwriteException catch (e) {
@@ -319,9 +324,9 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<SessionList?> getSessions() async {
+  Future<model.SessionList?> getSessions() async {
     try {
-      return await _account.getSessions();
+      return await _account.listSessions();
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
@@ -329,7 +334,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<User?> updateName({required String name}) async {
+  Future<model.Account?> updateName({required String name}) async {
     try {
       _user = await _account.updateName(name: name);
       notifyListeners();
@@ -341,12 +346,12 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<User?> updatePhone({
+  Future<model.Account?> updatePhone({
     required String number,
     required String password,
   }) async {
     try {
-      _user = await _account.updatePhone(number: number, password: password);
+      _user = await _account.updatePhone(phone: number, password: password);
       notifyListeners();
       return _user;
     } on AppwriteException catch (e) {
@@ -356,7 +361,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<User?> updateEmail({
+  Future<model.Account?> updateEmail({
     required String email,
     required String password,
   }) async {
@@ -371,7 +376,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<User?> updatePassword({
+  Future<model.Account?> updatePassword({
     required String password,
     String? oldPassword,
   }) async {
@@ -388,7 +393,7 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   //createRecovery
-  Future<Token?> createRecovery({
+  Future<model.Token?> createRecovery({
     required String email,
     required String url,
   }) async {
@@ -402,7 +407,7 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   //updateRecovery
-  Future<Token?> updateRecovery({
+  Future<model.Token?> updateRecovery({
     required String userId,
     required String password,
     required String passwordAgain,
@@ -422,7 +427,7 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   //createVerification
-  Future<Token?> createVerification({required String url}) async {
+  Future<model.Token?> createVerification({required String url}) async {
     try {
       return await _account.createVerification(url: url);
     } on AppwriteException catch (e) {
@@ -433,7 +438,7 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   //updateVerification
-  Future<Token?> updateVerification({
+  Future<model.Token?> updateVerification({
     required String userId,
     required String secret,
   }) async {
