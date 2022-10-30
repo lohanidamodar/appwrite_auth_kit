@@ -1,3 +1,7 @@
+## [0.6.0]
+* Updated to Appwrite SDK 8.1.0
+* **BREAKING** Appwrite 1.0 Support
+
 ## [0.5.0]
 * **BREAKING** Updated naming to be consistent `FlAppwriteAccountKit` is now `AppwriteAccountKit`
 * **BREAKING** Minimum Dart SDK required 2.17 to be consistent with [Appwrite](https://pub.dev/packages/appwrite)
