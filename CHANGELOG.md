@@ -1,3 +1,6 @@
+## [0.7.0]
+* Updated to Appwrite SDK 8.2.0
+
 ## [0.6.0]
 * Updated to Appwrite SDK 8.1.0
 * **BREAKING** Appwrite 1.0 Support
