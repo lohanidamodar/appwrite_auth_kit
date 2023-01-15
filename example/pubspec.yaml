@@ -11,6 +11,7 @@ dependencies:
     sdk: flutter 
   appwrite_auth_kit:
     path: ../
+  random_string: ^2.3.1
 
 dev_dependencies:
   flutter_test:

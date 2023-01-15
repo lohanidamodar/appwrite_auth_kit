@@ -1,6 +1,10 @@
 import 'package:appwrite_auth_kit/appwrite_auth_kit.dart';
 import 'package:flutter/material.dart';
 
+import 'admin.dart';
+import 'loading.dart';
+import 'login.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -17,8 +21,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     client = Client();
     client
-        .setEndpoint('https://demo.appwrite.io/v1')
-        .setProject('606e4205b3b5c')
+        .setEndpoint('http://172.20.0.7/v1')
+        .setProject('63c39409d6a8a5cd05bd')
         .setSelfSigned();
   }
 
@@ -27,7 +31,7 @@ class _MyAppState extends State<MyApp> {
     return AppwriteAuthKit(
       client: client,
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'TeleTest',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
@@ -37,11 +41,13 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+
+
+
 class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authNotifier = context.authNotifier;
-
     Widget widget;
     switch (authNotifier.status) {
       case AuthStatus.authenticated:
@@ -57,136 +63,5 @@ class MainScreen extends StatelessWidget {
         break;
     }
     return widget;
-  }
-}
-
-class LoadingPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-  }
-}
-
-class AdminPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final user = context.authNotifier.user;
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Admin page'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: <Widget>[
-          if (user != null) ...[
-            Text(user.name),
-            Text(user.email),
-            const SizedBox(height: 20.0),
-            ElevatedButton(
-                onPressed: () {
-                  context.authNotifier.deleteSession();
-                },
-                child: Text("Logout"))
-          ]
-        ],
-      ),
-    );
-  }
-}
-
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  late TextEditingController _email;
-  late TextEditingController _password;
-
-  @override
-  void initState() {
-    super.initState();
-    _email = TextEditingController();
-    _password = TextEditingController();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          children: [
-            const SizedBox(height: 30.0),
-            Text(
-              "FlAppwrite Account Kit Example",
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline3?.copyWith(
-                    color: Theme.of(context).primaryColor,
-                  ),
-            ),
-            const SizedBox(height: 20.0),
-            Card(
-              margin: const EdgeInsets.all(32.0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: ListView(
-                shrinkWrap: true,
-                primary: false,
-                physics: NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(16.0),
-                children: [
-                  const SizedBox(height: 20.0),
-                  Text(
-                    "Log In",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline5?.copyWith(
-                          color: Colors.red,
-                        ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  TextField(
-                    controller: _email,
-                    decoration: InputDecoration(
-                      labelText: "Enter email",
-                    ),
-                  ),
-                  TextField(
-                    controller: _password,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: "Enter password",
-                    ),
-                  ),
-                  const SizedBox(height: 30.0),
-                  ElevatedButton(
-                    child: Text("Login"),
-                    onPressed: () async {
-                      final email = _email.text;
-                      final password = _password.text;
-
-                      if (!await context.authNotifier.createEmailSession(
-                          email: email, password: password)) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(context.authNotifier.error ??
-                                "Unknown error")));
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.all(16.0),
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 }
