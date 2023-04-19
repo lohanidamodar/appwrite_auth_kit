@@ -8,7 +8,7 @@ environment:
   flutter: ">=2.0.0"
 
 dependencies:
-  appwrite: ^8.2.0 
+  appwrite: ^9.0.0 
   flutter:
     sdk: flutter
     

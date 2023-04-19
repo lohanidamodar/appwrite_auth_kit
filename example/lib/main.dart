@@ -124,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
             Text(
               "FlAppwrite Account Kit Example",
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headline3?.copyWith(
+              style: Theme.of(context).textTheme.displaySmall?.copyWith(
                     color: Theme.of(context).primaryColor,
                   ),
             ),
@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                   Text(
                     "Log In",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                           color: Colors.red,
                         ),
                   ),
