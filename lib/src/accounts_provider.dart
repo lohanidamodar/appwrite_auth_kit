@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer' as developer;
+
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 import 'package:flutter/widgets.dart';
@@ -51,6 +54,29 @@ class AuthNotifier extends ChangeNotifier {
     _loading = true;
     _account = Account(client);
     _getUser();
+    _initAuthNotifier();
+  }
+
+  void _initAuthNotifier() {
+    try {
+      developer.registerExtension('ext.appwrite_auth_kit.getUser',
+          (method, parameters) async {
+        return developer.ServiceExtensionResponse.result(
+            user != null ? jsonEncode(_user?.toMap()) : '{}');
+      });
+
+      developer.registerExtension('ext.appwrite_auth_kit.getData',
+          (method, parameters) async {
+        return developer.ServiceExtensionResponse.result(jsonEncode({
+          'endpoint': client.endPoint,
+          'error': error,
+          'loading': _loading,
+          'project': client.config['project']
+        }));
+      });
+    } catch (e) {
+      debugPrint("already registered");
+    }
   }
 
   Account get account => _account;
@@ -64,7 +90,11 @@ class AuthNotifier extends ChangeNotifier {
     try {
       _user = await _account.get();
       _status = AuthStatus.authenticated;
+      developer.postEvent('appwrite_auth_kit:event',
+          {"type": "userLoaded", "user": user!.toMap()});
     } on AppwriteException catch (e) {
+      developer
+          .postEvent('appwrite_auth_kit:event', {"type": "userLoadFailed"});
       _status = AuthStatus.unauthenticated;
       _error = e.message;
     } finally {
@@ -81,6 +111,10 @@ class AuthNotifier extends ChangeNotifier {
       _user = null;
       _status = AuthStatus.unauthenticated;
       notifyListeners();
+      developer.postEvent('appwrite_auth_kit:event', {
+        "type": "deleteSession",
+        "session": {"id": sessionId}
+      });
       return true;
     } on AppwriteException catch (e) {
       _error = e.message;
@@ -266,8 +300,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<User?> updatePrefs(
-      {required Map<String, dynamic> prefs}) async {
+  Future<User?> updatePrefs({required Map<String, dynamic> prefs}) async {
     try {
       _user = await _account.updatePrefs(prefs: prefs);
       notifyListeners();
@@ -468,7 +501,8 @@ class AuthNotifier extends ChangeNotifier {
     required String secret,
   }) async {
     try {
-      return await _account.updatePhoneVerification(userId: userId, secret: secret);
+      return await _account.updatePhoneVerification(
+          userId: userId, secret: secret);
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();

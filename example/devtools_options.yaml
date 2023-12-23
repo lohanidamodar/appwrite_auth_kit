@@ -1,0 +1,2 @@
+extensions:
+  - appwrite_auth_kit: true

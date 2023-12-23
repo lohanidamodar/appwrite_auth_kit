@@ -17,9 +17,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     client = Client();
     client
-        .setEndpoint('https://demo.appwrite.io/v1')
-        .setProject('606e4205b3b5c')
-        .setSelfSigned();
+        .setEndpoint('https://cloud.appwrite.io/v1')
+        .setProject('appwrite-auth-kit-demo');
   }
 
   @override
@@ -87,8 +86,8 @@ class AdminPage extends StatelessWidget {
             Text(user.email),
             const SizedBox(height: 20.0),
             ElevatedButton(
-                onPressed: () {
-                  context.authNotifier.deleteSession();
+                onPressed: () async {
+                  await context.authNotifier.deleteSession();
                 },
                 child: Text("Logout"))
           ]
