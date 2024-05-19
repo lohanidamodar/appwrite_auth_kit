@@ -1,6 +1,6 @@
 name: appwrite_auth_kit
 description: A wrapper for Appwrite's Accounts service, makes it easy to manage authentication and account features.
-version: 0.9.0
+version: 0.10.0
 homepage: https://github.com/lohanidamodar/appwrite_auth_kit
 
 environment:

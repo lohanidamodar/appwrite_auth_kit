@@ -1,10 +1,16 @@
-## [0.8.0]
+## [0.10.0]
 * Updated to Appwrite SDK 12.0.0
 * **BREAKING** Updated naming to be consistent `createEmailSession` is now `createEmailPasswordSession`
 * **BREAKING** Updated naming to be consistent `createPhoneSession` is now `createPhoneToken`
 * **BREAKING** Updated naming to be consistent `createMagicURLSession` is now `createMagicURLToken`
 * **BREAKING** Changed argument `provider` of `createOAuth2Session` from `String` to `OAuthProvider`
 * **BREAKING** Removed argument `passwordAgain` of `updateRecovery`
+
+## [0.9.0]
+* Updated to Appwrite SDK 11.0.0
+
+## [0.8.0]
+* Appwrite 1.3 Support
 
 ## [0.7.0]
 * Updated to Appwrite SDK 8.2.0
