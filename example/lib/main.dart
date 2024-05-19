@@ -2,12 +2,14 @@ import 'package:appwrite_auth_kit/appwrite_auth_kit.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
@@ -31,13 +33,15 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: MainScreen(),
+        home: const MainScreen(),
       ),
     );
   }
 }
 
 class MainScreen extends StatelessWidget {
+  const MainScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final authNotifier = context.authNotifier;
@@ -45,15 +49,15 @@ class MainScreen extends StatelessWidget {
     Widget widget;
     switch (authNotifier.status) {
       case AuthStatus.authenticated:
-        widget = AdminPage();
+        widget = const AdminPage();
         break;
       case AuthStatus.unauthenticated:
       case AuthStatus.authenticating:
-        widget = LoginPage();
+        widget = const LoginPage();
         break;
       case AuthStatus.uninitialized:
       default:
-        widget = LoadingPage();
+        widget = const LoadingPage();
         break;
     }
     return widget;
@@ -61,9 +65,11 @@ class MainScreen extends StatelessWidget {
 }
 
 class LoadingPage extends StatelessWidget {
+  const LoadingPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: CircularProgressIndicator(),
       ),
@@ -72,12 +78,14 @@ class LoadingPage extends StatelessWidget {
 }
 
 class AdminPage extends StatelessWidget {
+  const AdminPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final user = context.authNotifier.user;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Admin page'),
+        title: const Text('Admin page'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
@@ -90,7 +98,7 @@ class AdminPage extends StatelessWidget {
                 onPressed: () {
                   context.authNotifier.deleteSession();
                 },
-                child: Text("Logout"))
+                child: const Text("Logout"))
           ]
         ],
       ),
@@ -99,8 +107,10 @@ class AdminPage extends StatelessWidget {
 }
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -137,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
               child: ListView(
                 shrinkWrap: true,
                 primary: false,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(16.0),
                 children: [
                   const SizedBox(height: 20.0),
@@ -151,34 +161,36 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 20.0),
                   TextField(
                     controller: _email,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Enter email",
                     ),
                   ),
                   TextField(
                     controller: _password,
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Enter password",
                     ),
                   ),
                   const SizedBox(height: 30.0),
                   ElevatedButton(
-                    child: Text("Login"),
                     onPressed: () async {
                       final email = _email.text;
                       final password = _password.text;
+                      final scaffoldMessenger = ScaffoldMessenger.of(context);
+                      final authNotifier = context.authNotifier;
 
-                      if (!await context.authNotifier.createEmailSession(
+                      if (!await authNotifier.createEmailPasswordSession(
                           email: email, password: password)) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(context.authNotifier.error ??
+                        scaffoldMessenger.showSnackBar(SnackBar(
+                            content: Text(authNotifier.error ??
                                 "Unknown error")));
                       }
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.all(16.0),
                     ),
+                    child: const Text("Login"),
                   ),
                   const SizedBox(height: 20.0),
                 ],

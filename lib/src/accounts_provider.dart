@@ -1,4 +1,5 @@
 import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/enums.dart';
 import 'package:appwrite/models.dart';
 import 'package:flutter/widgets.dart';
 
@@ -8,13 +9,11 @@ extension AppwriteAuthKitExt on BuildContext {
 
 class AppwriteAuthKit extends InheritedNotifier<AuthNotifier> {
   AppwriteAuthKit({
-    Key? key,
+    super.key,
     required Client client,
-    required Widget child,
+    required super.child,
   }) : super(
-          key: key,
           notifier: AuthNotifier(client),
-          child: child,
         );
 
   @override
@@ -54,10 +53,15 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   Account get account => _account;
+
   Client get client => _client;
+
   String? get error => _error;
+
   bool get isLoading => _loading;
+
   User? get user => _user;
+
   AuthStatus get status => _status;
 
   Future _getUser({bool notify = true}) async {
@@ -101,7 +105,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> createEmailSession({
+  Future<bool> createEmailPasswordSession({
     required String email,
     required String password,
     bool notify = true,
@@ -111,7 +115,8 @@ class AuthNotifier extends ChangeNotifier {
       notifyListeners();
     }
     try {
-      await _account.createEmailSession(email: email, password: password);
+      await _account.createEmailPasswordSession(
+          email: email, password: password);
       _getUser(notify: notify);
       return true;
     } on AppwriteException catch (e) {
@@ -124,14 +129,14 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> createPhoneSession({
+  Future<bool> createPhoneToken({
     required String userId,
     required String number,
   }) async {
     _status = AuthStatus.authenticating;
     notifyListeners();
     try {
-      await _account.createPhoneSession(userId: userId, phone: number);
+      await _account.createPhoneToken(userId: userId, phone: number);
       return true;
     } on AppwriteException catch (e) {
       _error = e.message;
@@ -174,7 +179,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> createMagicURLSession({
+  Future<bool> createMagicURLToken({
     required String email,
     String userId = 'unique()',
     String? url,
@@ -182,7 +187,7 @@ class AuthNotifier extends ChangeNotifier {
     _status = AuthStatus.authenticating;
     notifyListeners();
     try {
-      await _account.createMagicURLSession(
+      await _account.createMagicURLToken(
           userId: userId, email: email, url: url);
       return true;
     } on AppwriteException catch (e) {
@@ -240,7 +245,7 @@ class AuthNotifier extends ChangeNotifier {
           userId: userId, name: name, email: email, password: password);
       _error = '';
       if (newSession) {
-        await createEmailSession(email: email, password: password);
+        await createEmailPasswordSession(email: email, password: password);
       }
       return user;
     } on AppwriteException catch (e) {
@@ -266,8 +271,7 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<User?> updatePrefs(
-      {required Map<String, dynamic> prefs}) async {
+  Future<User?> updatePrefs({required Map<String, dynamic> prefs}) async {
     try {
       _user = await _account.updatePrefs(prefs: prefs);
       notifyListeners();
@@ -293,7 +297,7 @@ class AuthNotifier extends ChangeNotifier {
   }
 
   Future<bool> createOAuth2Session({
-    required String provider,
+    required OAuthProvider provider,
     String? success,
     String? failure,
     List<String>? scopes,
@@ -410,15 +414,11 @@ class AuthNotifier extends ChangeNotifier {
   Future<Token?> updateRecovery({
     required String userId,
     required String password,
-    required String passwordAgain,
     required String secret,
   }) async {
     try {
       return await _account.updateRecovery(
-          userId: userId,
-          password: password,
-          passwordAgain: passwordAgain,
-          secret: secret);
+          userId: userId, password: password, secret: secret);
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
@@ -468,7 +468,8 @@ class AuthNotifier extends ChangeNotifier {
     required String secret,
   }) async {
     try {
-      return await _account.updatePhoneVerification(userId: userId, secret: secret);
+      return await _account.updatePhoneVerification(
+          userId: userId, secret: secret);
     } on AppwriteException catch (e) {
       _error = e.message;
       notifyListeners();
