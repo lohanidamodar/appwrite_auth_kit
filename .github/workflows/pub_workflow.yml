@@ -1,26 +1,14 @@
 name: Publish to pub.dev
+
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    container:
-      image:  google/dart:latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Setup credentials
-      run: | 
-        mkdir -p ~/.config/dart 
-        cat <<EOF > ~/.config/dart/pub-credentials.json
-        {
-          "accessToken":"${{ secrets.OAUTH_ACCESS_TOKEN }}",
-          "refreshToken":"${{ secrets.OAUTH_REFRESH_TOKEN }}",
-          "tokenEndpoint":"https://accounts.google.com/o/oauth2/token",
-          "scopes": [ "openid", "https://www.googleapis.com/auth/userinfo.email" ],
-          "expiration": 1584628470088
-        }
-        EOF
-    - name: Publish package
-      run: dart pub publish -f
+  publish:
+    permissions:
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      environment: pub.dev
